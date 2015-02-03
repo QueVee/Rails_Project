@@ -44,12 +44,10 @@ season = SportsDataApi::Nfl.schedule(2014, :REG)
    # Loops through 256 times 
 256.times do |i|
 
-box_score = SportsDataApi::Nfl.boxscore(2014, :REG, all_weeks[i], home_teams[i], away_teams[i])
-
-home_team_id: Team.where(name: box_score.home_team.name).pluck(:id).first
-away_team_id: Team.where(name: box_score.away_team.name).pluck(:id).first)
-
-Game.create(date: box_score.scheduled, home_team_id: home_team.id, away_team_id: away_team.id), home_score: box_score.home_team.points, away_score: box_score.away_team.points)
+box = SportsDataApi::Nfl.boxscore(2014, :REG, all_weeks[i], home_teams[i], away_teams[i])
+      Game.create(date: box.scheduled, home_team_id: Team.where(name: box.home_team.name).pluck(:id).first, 
+      away_team_id: Team.where(name: box.away_team.name).pluck(:id).first, home_score: box.home_team.points,
+      away_score: box.away_team.points)
 
 sleep 1
 
